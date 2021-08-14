@@ -1,0 +1,10 @@
+# Project exclude paths
+/node_modules/
+
+/logs/
+
+/.gitignore/
+
+/yarn-error.log/
+
+/.idea/
