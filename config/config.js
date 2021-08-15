@@ -8,13 +8,13 @@ export const serverConfig = {
 export const logConfig = {
     replaceConsole: true,
     appenders: {
-    out: {type: "stdout",  layout: {type: "colored"}},
-    date: {type: "dateFile", filename: "logs/date", pattern: "yyyy-MM-dd.log", alwaysIncludePattern: true},
-    error: {type: "file", filename:  "logs/error.log"}
+        out: {type: "stdout",  layout: {type: "colored"}},
+        date: {type: "dateFile", filename: "logs/date", pattern: "yyyy-MM-dd.log", alwaysIncludePattern: true},
+        errorLog: { type: 'file', filename: './logs/error.log' },
+        error: {type: "logLevelFilter", level: "error", appender: "errorLog"}
 },
     categories: {
-    default: {appenders: ["out", "date"], level: "all"},
-    error: {appenders: ["out", "error"], level: "error"}
+        default: {appenders: ["out", "date", "error"], level: "debug"}
 }}
 
 export const mysqlConfig = {

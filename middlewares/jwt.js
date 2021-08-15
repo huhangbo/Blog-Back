@@ -1,17 +1,14 @@
-import koaJwt from 'koa-jwt'
 import jwt from 'jsonwebtoken'
 
 
 export default async function (ctx, next) {
-    try {
-        if(typeof ctx.request.headers.authorization === 'string') {
-            const token = ctx.request.headers.authorization.slice(7)
-            ctx.jwtData = jwt.verify(token, "blog")
-        } else {
-            throw {code: 401, message: 'no authorization'}
+    let token = ctx.header.authorization.split(' ')[1]
+    console.log(token)
+    jwt.verify(token, "blog", (error,decode) => {
+        if(error) {
+            ctx.body = ctx.res.fail("没有权限")
         }
-    } catch (err) {
-        throw {code: 401, message: err.message}
-    }
+        console.log(decode)
+    })
     await next()
 }
