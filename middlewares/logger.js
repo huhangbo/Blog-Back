@@ -1,5 +1,3 @@
-import fs from 'fs'
-import path from 'path'
 import log4js from 'log4js'
 import {logConfig} from "../config/config.js";
 
