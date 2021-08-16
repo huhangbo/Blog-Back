@@ -17,29 +17,35 @@ export async function updateResourceCategory (ctx, next) {
 
 export async function deleteResourceCategory (ctx, next) {
     let id = ctx.params.id
-    await exec(`DELETE FROM category
+    await exec(`DELETE FROM resource_category
                     WHERE resource_category_id = ${id}`)
     ctx.body = ctx.res.success()
 }
 
 export async function addResource (ctx, next) {
-    let {title, category_id, description, content, publish_time} = ctx.request.body
-    await exec(`INSERT INTO resource(title, category_id, description, content, publish_time)
-                     VALUES("${title}", ${category_id}, "${description}, "${content}, "${publish_time}"`)
+    const {title, resourceCategoryId, description, content, publishTime} = ctx.request.body
+    const result = await exec(`INSERT INTO resource(title, description, content, publish_time)
+                                    VALUES("${title}", ${description}, "${description}, "${content}, "${publishTime}"`)
+    await exec(`INSERT INTO resource_category_relation(resource_id, resource_category_id) 
+                    VALUES(${result.insertId}, ${resourceCategoryId})`)
     ctx.body = ctx.res.success()
 }
 
 export async function updateResource (ctx, next) {
-    let {id, title, resource_category_id, description, content, publish_time} = ctx.request.body
+    let {id, title, resourceCategoryId, description, content, publishTime} = ctx.request.body
     await exec(`UPDATE resource
-                    SET title = "${title}", resource_category_id = ${resource_category_id}, description = "${description}, content = "${content}, publishtime = "${publish_time}"
+                    SET title = "${title}", description = "${description}", content = "${content}", publish_time = "${publishTime}"
                     WHERE resource_id = ${id}`)
+    await exec(`UPDATE resource_category_relation
+                    SET resource_id = ${id}, resource_category_id = ${resourceCategoryId}`)
     ctx.body = ctx.res.success()
 }
 
 export async function deleteCategory (ctx, next) {
-    let id = ctx.params.id
-    await exec(`DELETE FROM category
+    const id = ctx.params.id
+    await exec(`DELETE FROM resource
+                    WHERE resource_id = ${id}`)
+    await exec(`DELETE FROM resource_category_relation
                     WHERE resource_id = ${id}`)
     ctx.body = ctx.res.success()
 }

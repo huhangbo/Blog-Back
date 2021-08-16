@@ -23,7 +23,7 @@ export async function login (ctx, next) {
 export async function updateAuthorInfo (ctx, next) {
     let {author_id, name, avatar, tag} = ctx.request.body
     await exec(`UPDATE author
-                    SET name = "${name}", avater = "${avatar}", tag = "${tag}"
+                    SET name = "${name}", avatar = "${avatar}", tag = "${tag}"
                     WHERE author_id = ${author_id}`)
     ctx.body = ctx.res.success()
 }

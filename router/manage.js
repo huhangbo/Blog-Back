@@ -1,5 +1,4 @@
 import Router from 'koa-router'
-import jwtMiddleware from '../middlewares/jwt.js'
 import koaJwt from "koa-jwt";
 import * as authorAdmin from '../controllers/admin/author.js'
 import * as menuAdmin from '../controllers/admin/menu.js'
@@ -41,7 +40,7 @@ adminRouter.post('/article/add', articleAdmin.addArticle)
 
 adminRouter.post('/article/update', articleAdmin.updateArticle)
 
-adminRouter.delete('/article/delete/:id', articleAdmin.deleteCategory)
+adminRouter.delete('/article/delete/:id', articleAdmin.deleteArticle)
 
 adminRouter.post('/resource/category/add', resourceAdmin.addResourceCategory)
 

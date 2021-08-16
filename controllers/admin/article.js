@@ -1,24 +1,42 @@
-import {exec} from "../../models/db.js";
+import {exec} from "../../models/db.js"
 
 export async function addArticle (ctx, next) {
-    let {title, category_id, description, content, publish_time} = ctx.request.body
-    await exec(`INSERT INTO article(title, category_id, description, content, publish_time)
-                     VALUES("${title}", ${category_id}, "${description}, "${content}, "${publish_time}"`)
+    let {title, description, content, publishTime, categoryId, tagIds} = ctx.request.body
+    const result = await exec(`INSERT INTO article(title, description, content, publish_time)
+                                   VALUES("${title}", "${description}", "${content}", "${publishTime}")`)
+    await exec(`INSERT INTO article_category(article_id, category_id)
+                    VALUES(${result.insertId}, ${categoryId})`)
+    tagIds.map(async item => {
+        await exec(`INSERT INTO article_tag(article_id, tag_id)
+                        VALUES(${result.insertId}, ${item})`)
+    })
     ctx.body = ctx.res.success()
 }
 
 export async function updateArticle (ctx, next) {
-    let {id, title, category_id, description, content, publish_time} = ctx.request.body
+    const {id, title, description, content, publishTime, categoryId, tagIds} = ctx.request.body
     await exec(`UPDATE article
-                    SET title = "${title}", category_id = ${category_id}, description = "${description}, content = "${content}, publishtime = "${publish_time}"
+                    SET title = "${title}", description = "${description}", content = "${content}", publish_time = "${publishTime}"
                     WHERE article_id = ${id}`)
+    await exec(`UPDATE article_category
+                    SET category_id = ${categoryId}
+                    WHERE category_id = ${id}`)
+    await exec(`DELETE FROM article_tag
+                    WHERE article_id = ${id}`)
+    tagIds.map(async item => {
+        await exec(`INSERT INTO  article_tag(article_id, tag_id)
+                        VALUES (${id}, ${item})`)
+    })
     ctx.body = ctx.res.success()
 }
 
-export async function deleteCategory (ctx, next) {
-    let id = ctx.params.id
-    await exec(`DELETE FROM category
+export async function deleteArticle (ctx, next) {
+    const id = ctx.params.id
+    await exec(`DELETE FROM article
+                    WHERE article_id = ${id}`)
+    await exec(`DELETE FROM article_category
+                    WHERE article_id = ${id}`)
+    await exec(`DELETE FROM article_tag
                     WHERE article_id = ${id}`)
     ctx.body = ctx.res.success()
 }
-
