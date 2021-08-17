@@ -6,12 +6,15 @@ import staticCache from 'koa-static-cache'
 import {serverConfig} from "./config/config.js";
 import {loggerMiddleware} from './middlewares/logger.js'
 import {response, error} from './middlewares/response.js'
+import {cors} from "./middlewares/cors.js";
 import blogRouter from "./router/blog.js";
 import manageRouter from "./router/manage.js";
 
 const app = new Koa()
 
 app.use(loggerMiddleware)
+
+app.use(cors)
 
 app.use(bodyParser())
 
@@ -29,4 +32,4 @@ app.use(manageRouter.routes()).use(manageRouter.allowedMethods())
 
 const server = Http.createServer(app.callback())
 
-server.listen(3000)
+server.listen(8080)

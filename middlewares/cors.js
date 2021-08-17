@@ -1,14 +1,6 @@
-export const corsHandler = {
-        origin: function (ctx) {
-            if (ctx.url === '/test') {
-                // 这里可以配置不运行跨域的接口地址
-                return false;
-            }
-            return '*';
-        },
-        exposeHeaders: ['WWW-Authenticate', 'Server-Authorization'],
-        maxAge: 5,
-        credentials: true,
-        allowMethods: ['GET', 'POST', 'DELETE'],
-        allowHeaders: ['Content-Type', 'Authorization', 'Accept'],
+export async function cors (ctx, next){
+    ctx.set('Access-Control-Allow-Origin', '*');
+    ctx.set('Access-Control-Allow-Headers', 'Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild');
+    ctx.set('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
+    await next();
 }
