@@ -7,7 +7,7 @@ export async function getCategory (ctx, next) {
 }
 
 export async function getTag (ctx, next) {
-    const tag = await exec(`SELECT Tag_id, title, color
+    const tag = await exec(`SELECT tag_id, title, color
                                  FROM tag`)
     ctx.body = ctx.res.success(tag)
 }
