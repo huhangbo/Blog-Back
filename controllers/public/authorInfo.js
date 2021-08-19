@@ -1,7 +1,7 @@
 import {exec} from "../../models/db.js";
 
 export async function getAuthor (ctx, next) {
-    const author = await exec(`SELECT user, avatar, tag FROM author`)
+    const author = await exec(`SELECT name, avatar, tag FROM author`)
     ctx.body = ctx.res.success(author)
 }
 
