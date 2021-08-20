@@ -18,11 +18,12 @@ export const logConfig = {
 }}
 
 export const mysqlConfig = {
-    host     : 'localhost',
-    port     : '3306',
-    user     : 'root',
-    password : 'root',
-    database : 'blog'
+    host: 'localhost',
+    port: '3306',
+    user: 'root',
+    password: 'root',
+    database: 'blog',
+    timezone: '08:00',
 }
 
 
