@@ -73,7 +73,7 @@ export  async function getArticleByPage(ctx, next) {
     const page = ctx.params.page
     const pageSize = ctx.params.pageSize
     const article = await exec(`SELECT DISTINCT A.article_id AS article_id, A.title, description, publish_time, C.category_id, C.title AS category_title,E.tag_id, E.title AS tag_title
-                                FROM (SELECT * FROM article LIMIT ${num*(page-1)},${pageSize}) A
+                                FROM (SELECT * FROM article LIMIT ${pageSize*(page-1)},${pageSize}) A
                                          LEFT JOIN article_category B
                                                    ON A.article_id = B.article_id
                                          LEFT JOIN category C
