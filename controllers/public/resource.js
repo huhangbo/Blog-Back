@@ -2,8 +2,15 @@ import {exec} from "../../models/db.js";
 
 
 export async function  getResourceCategory (ctx, next) {
-    const resourceCategory = await exec(`SELECT resource_category_id, title, amount
-                                             FROM resource_category`)
+    const resourceCategory = await exec(`SELECT resource_category_id, title, (
+                                                    SELECT COUNT(*)
+                                                    FROM resource_category_relation
+                                                    WHERE resource_category_relation.resource_category_id =
+                                                          resource_category.resource_category_id)
+                                                    AS amount
+                                         FROM resource_category
+                                         GROUP BY resource_category_id
+                                         ORDER BY resource_category_id`)
     ctx.body = ctx.res.success(resourceCategory)
 }
 

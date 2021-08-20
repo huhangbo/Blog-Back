@@ -25,11 +25,13 @@ blogRouter.get('/article/:id', articlePublic.getArticleById)
 
 blogRouter.get('/article/tag/:id', articlePublic.getArticleTag)
 
+blogRouter.get('/article/:page/:pageSize', articlePublic.getArticleByPage)
+
 blogRouter.get('/resource/category', resourcePublic.getResourceCategory)
 
 blogRouter.get('/resource/category/:id', resourcePublic.getCategoryByResource)
 
-blogRouter.get('/resource/resource/category/:id', resourcePublic.getResourceCategory)
+blogRouter.get('/resource/resource/category/:id', resourcePublic.getResourceByCategory)
 
 blogRouter.get('/resource/:id', resourcePublic.getResourceById)
 
