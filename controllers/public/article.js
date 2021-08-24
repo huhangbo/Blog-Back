@@ -82,6 +82,9 @@ export  async function getArticleByPage(ctx, next) {
                                                    ON D.article_id = A.article_id
                                          LEFT JOIN tag E
                                                    ON D.tag_id = E.tag_id`)
+    const articleAmount = await exec(`SELECT COUNT(*) AS amount
+                                          FROM article`)
+    const totalPage =  Math.ceil(articleAmount[0].amount / pageSize)
     let result = []
     let hash = new Set()
     for(let i = 0, t = -1; i < article.length; i++) {
@@ -96,5 +99,13 @@ export  async function getArticleByPage(ctx, next) {
             result[t].tag.push({tag_id: article[i].tag_id, tag_title: article[i].tag_title})
         }
     }
-    ctx.body = ctx.res.success(result)
+    ctx.body = ctx.res.success({
+        articles: result,
+        page: {
+            currentPage: page,
+            pageSize: pageSize,
+            totalPage: totalPage,
+            articleAmount: articleAmount[0].amount
+        }
+    })
 }
