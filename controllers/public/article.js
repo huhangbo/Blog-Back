@@ -63,10 +63,36 @@ export async function getArticleTag (ctx, next) {
 
 export async function getArticleById (ctx, next) {
     const id = ctx.params.id
-    const info = await exec(`SELECT article_id, title, description, content, publish_time, count
-                                 FROM article
-                                 WHERE article_id = ${id}`)
-    ctx.body = ctx.res.success(info)
+    const article = await exec(`SELECT DISTINCT A.article_id AS article_id, A.title, description, content, publish_time,
+                                             C.category_id,
+                                             C.title      AS category_title,
+                                             E.tag_id,
+                                             E.title      AS tag_title
+                                    FROM (SELECT * FROM article WHERE article_id = ${id}) A
+                                      LEFT JOIN article_category B
+                                                ON A.article_id = B.article_id
+                                      LEFT JOIN category C
+                                                ON C.category_id = B.category_id
+                                      LEFT JOIN article_tag D
+                                                ON D.article_id = A.article_id
+                                      LEFT JOIN tag E
+                                                ON D.tag_id = E.tag_id`)
+
+    let result = []
+    let hash = new Set()
+    for(let i = 0, t = -1; i < article.length; i++) {
+        if(!hash.has(article[i].article_id)){
+            hash.add(article[i].article_id)
+            t++
+            result[t] = article[i]
+            result[t].tag = [{tag_id: article[i].tag_id, tag_title: article[i].tag_title}]
+            delete result[t].tag_id
+            delete result[t].tag_title
+        } else {
+            result[t].tag.push({tag_id: article[i].tag_id, tag_title: article[i].tag_title})
+        }
+    }
+    ctx.body = ctx.res.success(result[0])
 }
 
 export  async function getArticleByPage(ctx, next) {
