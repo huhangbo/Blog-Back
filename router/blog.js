@@ -13,13 +13,13 @@ blogRouter.get('/menu', authorPublic.getMenu)
 
 blogRouter.get('/category', articlePublic.getCategory)
 
-blogRouter.get('/category/:id', articlePublic.getArticleByCategory)
+blogRouter.get('/category/:id/:page/:pageSize', articlePublic.getArticleByCategory)
 
 blogRouter.get('/article/category/:id', articlePublic.getArticleCategory)
 
 blogRouter.get('/tag', articlePublic.getTag)
 
-blogRouter.get('/tag/:id', articlePublic.getArticleByTag)
+blogRouter.get('/tag/:id/:page/:pageSize', articlePublic.getArticleByTag)
 
 blogRouter.get('/article/:id', articlePublic.getArticleById)
 
