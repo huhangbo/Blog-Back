@@ -2,8 +2,15 @@ import {exec} from "../../models/db.js";
 import {handleArticleList} from "../../models/article.js";
 
 export async function getCategory (ctx, next) {
-    const category = await exec(`SELECT category_id, title, icon
-                                     FROM category`)
+    const category = await exec(`SELECT category_id, title, (
+                                    SELECT COUNT(*)
+                                    FROM article_category
+                                    WHERE article_category.category_id =
+                                          category.category_id)
+                                    AS amount
+                                    FROM category
+                                 GROUP BY category_id
+                                 ORDER BY category_id`)
     ctx.body = ctx.res.success(category)
 }
 

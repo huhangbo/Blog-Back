@@ -12,7 +12,6 @@ export function exec (sql) {
         connection.query(sql, (err, res) => {
             if(err){
                 reject(err)
-                return
             }
             else{
                 resolve(res)

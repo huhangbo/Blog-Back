@@ -1,4 +1,3 @@
-import path from "path";
 
 export const serverConfig = {
     port: '3001',

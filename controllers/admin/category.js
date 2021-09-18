@@ -1,16 +1,16 @@
 import {exec} from "../../models/db.js";
 
 export async function addCategory (ctx, next) {
-    const {title, icon} = ctx.request.body
+    const {title} = ctx.request.body
     await exec(`INSERT INTO category(title, icon)
-                     VALUES("${title}", "${icon}")`)
+                     VALUES("${title}")`)
     ctx.body = ctx.res.success()
 }
 
 export async function updateCategory (ctx, next) {
-    const {id, title, icon} = ctx.request.body
+    const {id, title} = ctx.request.body
     await exec(`UPDATE category
-                    SET title = "${title}", icon = "${icon}"
+                    SET title = "${title}"
                     WHERE category_id = ${id}`)
     ctx.body = ctx.res.success()
 }

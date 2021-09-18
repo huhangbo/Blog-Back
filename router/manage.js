@@ -42,12 +42,6 @@ adminRouter.post('/article/update', articleAdmin.updateArticle)
 
 adminRouter.delete('/article/delete/:id', articleAdmin.deleteArticle)
 
-adminRouter.post('/resource/category/add', resourceAdmin.addResourceCategory)
-
-adminRouter.post('/resource/category/update', resourceAdmin.updateResourceCategory)
-
-adminRouter.delete('/resource/category/delete/:id', resourceAdmin.deleteResourceCategory)
-
 adminRouter.post('/resource/add', resourceAdmin.addResource)
 
 adminRouter.post('/resource/update', resourceAdmin.updateResource)
