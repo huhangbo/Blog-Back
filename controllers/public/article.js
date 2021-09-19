@@ -26,7 +26,8 @@ export async function getArticleByCategory (ctx, next) {
                                         C.category_id,
                                         C.title      AS category_title,
                                         E.tag_id,
-                                        E.title      AS tag_title
+                                        E.title      AS tag_title,
+                                        color
                                  FROM (SELECT * 
                                     FROM article_category 
                                     WHERE category_id = ${id}
@@ -62,7 +63,8 @@ export async function getArticleByTag (ctx, next) {
                                         C.category_id,
                                         C.title      AS category_title,
                                         E.tag_id,
-                                        E.title      AS tag_title
+                                        E.title      AS tag_title,
+                                        color
                                  FROM (SELECT *
                                        FROM article_tag
                                        WHERE tag_id = ${id}
@@ -107,7 +109,7 @@ export async function getArticleCategory (ctx, next) {
 
 export async function getArticleTag (ctx, next) {
     const articleId = ctx.params.id
-    const tags = await exec(`SELECT tag_id, title
+    const tags = await exec(`SELECT tag_id, title, color
                                  FROM tag
                                  WHERE tag_id IN (
                                      SELECT tag_id
@@ -119,11 +121,12 @@ export async function getArticleTag (ctx, next) {
 
 export async function getArticleById (ctx, next) {
     const id = ctx.params.id
-    const article = await exec(`SELECT A.article_id AS article_id, A.title, description, content, publish_time,
+    const article = await exec(`SELECT A.article_id AS article_id, A.title, description, content, publish_time, 
                                              C.category_id,
                                              C.title      AS category_title,
                                              E.tag_id,
-                                             E.title      AS tag_title
+                                             E.title      AS tag_title,
+                                             color
                                     FROM (SELECT * FROM article WHERE article_id = ${id}) A
                                       LEFT JOIN article_category B
                                                 ON A.article_id = B.article_id
@@ -139,7 +142,7 @@ export async function getArticleById (ctx, next) {
 
 export  async function getArticleByPage(ctx, next) {
     const {page, pageSize} = ctx.params
-    const article = await exec(`SELECT DISTINCT A.article_id AS article_id, A.title, description, publish_time, C.category_id, C.title AS category_title,E.tag_id, E.title AS tag_title
+    const article = await exec(`SELECT DISTINCT A.article_id AS article_id, A.title, description, publish_time, C.category_id, C.title AS category_title,E.tag_id, E.title AS tag_title, color
                                 FROM (SELECT * FROM article LIMIT ${pageSize*(page-1)},${pageSize}) A
                                          LEFT JOIN article_category B
                                                    ON A.article_id = B.article_id
