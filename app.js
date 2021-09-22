@@ -1,9 +1,8 @@
 import Koa from 'koa'
 import Http from "http"
 import bodyParser from 'koa-bodyparser'
-import helmet from "koa-helmet";
+import Helmet from "koa-helmet";
 import staticCache from 'koa-static-cache'
-import {serverConfig} from "./config/config.js";
 import {loggerMiddleware} from './middlewares/logger.js'
 import {response, error} from './middlewares/response.js'
 import {cors} from "./middlewares/cors.js";
@@ -22,7 +21,7 @@ app.use(response())
 
 app.use(error())
 
-app.use(helmet())
+app.use(Helmet())
 
 //app.use(staticCache(serverConfig))
 
