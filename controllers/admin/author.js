@@ -1,5 +1,4 @@
 import {exec} from "../../models/db.js";
-import koaJwt from "koa-jwt";
 import jwt from "jsonwebtoken"
 import crypto from "crypto"
 
