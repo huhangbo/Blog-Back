@@ -25,4 +25,10 @@ export const mysqlConfig = {
     timezone: '08:00',
 }
 
+export const mongoConfig = {
+    url: "mongodb://localhost:27017/?maxPoolSize=20&w=majority",
+    dbName: "blog"
+}
+
+
 

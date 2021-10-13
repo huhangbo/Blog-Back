@@ -5,27 +5,15 @@ import * as resourcePublic from "../controllers/public/resource.js"
 
 const blogRouter = new Router()
 
-blogRouter.get('/author',authorPublic.getAuthor)
+blogRouter.get('/author',authorPublic.getAuthorInfo)
 
-blogRouter.get('/social', authorPublic.getSocial)
+blogRouter.get('/:type', articlePublic.getType)
 
-blogRouter.get('/menu', authorPublic.getMenu)
+blogRouter.get('/:type/:detail/:page/:pageSize', articlePublic.getArticleByType)
 
-blogRouter.get('/category', articlePublic.getCategory)
-
-blogRouter.get('/category/:id/:page/:pageSize', articlePublic.getArticleByCategory)
-
-blogRouter.get('/article/category/:id', articlePublic.getArticleCategory)
-
-blogRouter.get('/tag', articlePublic.getTag)
-
-blogRouter.get('/tag/:id/:page/:pageSize', articlePublic.getArticleByTag)
+blogRouter.get('/article/:page/:pageSize', articlePublic.getArticleByType)
 
 blogRouter.get('/article/:id', articlePublic.getArticleById)
-
-blogRouter.get('/article/tag/:id', articlePublic.getArticleTag)
-
-blogRouter.get('/article/:page/:pageSize', articlePublic.getArticleByPage)
 
 blogRouter.get('/resource/:id', resourcePublic.getResourceById)
 
