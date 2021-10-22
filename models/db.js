@@ -13,8 +13,6 @@ export async function exec (todo) {
     }
 }
 
-const tmp = mongoClient.db(mongoConfig.dbName).collection("article")
-
 // async function add () {
 //     await exec(() => tmp.insertOne({
 //         title: "自动化测试",
